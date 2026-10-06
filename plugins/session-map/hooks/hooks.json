@@ -1,0 +1,4 @@
+{
+  "description": "Session map: observe Read/Edit/Write/Glob and draw a live file pane grouped by app",
+  "modules": ["./register.ts"]
+}

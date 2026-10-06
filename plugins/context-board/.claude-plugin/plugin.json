@@ -1,7 +1,7 @@
 {
   "name": "context-board",
   "version": "0.1.0",
-  "description": "Compact context card above the prompt: stacked category bar, percent, and a wrapping legend of everything in the window.",
+  "description": "Compact context card above the prompt: stacked category bar, percent, a wrapping legend, and a one-line kit strip of loaded skills, agents, CLAUDE.md, and plugins.",
   "author": { "name": "mags" },
   "userConfig": {
     "openPaneOnStart": {

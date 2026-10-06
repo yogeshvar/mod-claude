@@ -60,9 +60,17 @@ function world(
   on('command.register', ($, e) => ({ value: { command: e.name } }))
   on('ui.status', () => ({ value: undefined }))
   on('ui.invalidate', () => ({ value: undefined }))
-  on('ui.open', () => ({ value: undefined }))
+  on('ui.open', () => ({ value: { isPlaced: true } }))
   on('ui.close', () => ({ value: undefined }))
   on('ui.panes', () => ({ value: [] }))
+  on('settings.read', () => ({
+    value: { enabledPlugins: { 'vercel@claude-plugins-official': true, 'agents-side@mod-claude': true } },
+  }))
+  on('fs.ancestors', () => ({
+    value: [{ dir: '/work', name: 'CLAUDE.md', content: '# work', parts: [] }],
+  }))
+  on('agent.list', () => ({ value: [] }))
+  on('tool.call', () => ({ result: 'ok' }))
   on('turn.complete', () => ({ text: '' }))
   on('session.measure', ($, e) => ({ changed: e.changed }))
   on('session.compact', () => ({ messages: [] }))
@@ -114,6 +122,9 @@ describe('context-board', () => {
     expect(await ui.find({ type: 'Text', text: /skills/ })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /messages/ })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /compacts at/ })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /CLAUDE\.md/ })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /skills 6/ })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /plugins vercel/ })).toBeDefined()
     await ui.unmount()
   })
 
@@ -137,11 +148,18 @@ describe('context-board', () => {
       isAborted: false,
       turnId: 't1',
     })
-    expect(await ui.find({ type: 'Text', text: /67%/ })).toBeDefined()
-    expect(await ui.find({ type: 'Text', text: /messages/ })).toBeDefined()
+    await ui.unmount()
+    const later = await $.ui.mount({
+      plugin: 'context-board',
+      surface: 'terminal',
+      component: 'AbovePrompt',
+      props: bandProps,
+    })
+    expect(await later.find({ type: 'Text', text: /67%/ })).toBeDefined()
+    expect(await later.find({ type: 'Text', text: /messages/ })).toBeDefined()
 
     const answer = await $.command.run({ command: 'context-board', args: 'refresh' })
     expect(answer.text ?? '').toMatch(/token-count API/)
-    await ui.unmount()
+    await later.unmount()
   })
 })

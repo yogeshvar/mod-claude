@@ -1,4 +1,5 @@
 import { drawBoard } from './draw.ts'
+import { instructionNames, pluginsFromSettings } from './kit.ts'
 import { PANE, afterCompact, applyHeadline, applyUsage, emptyBoard, type Board } from './model.ts'
 
 let board: Board = emptyBoard()
@@ -28,13 +29,34 @@ async function takeReading(
   pin($)
 }
 
+async function loadKit($: {
+  settings: { read: () => Promise<unknown> }
+  fs: { ancestors: (request: { names: string[] }) => Promise<Array<{ dir: string; name: string; content: string }>> }
+  agent: { list: () => Promise<Array<{ id: string }>> }
+}) {
+  const settings = (await $.settings.read().catch(() => ({}))) as Record<string, unknown>
+  const found = await $.fs.ancestors({ names: ['CLAUDE.md', 'AGENTS.md'] }).catch(() => [])
+  const listed = await $.agent.list().catch(() => [])
+  const spawned = listed.filter(row => row.id && row.id !== 'main').length
+  board = {
+    ...board,
+    kit: {
+      ...board.kit,
+      plugins: pluginsFromSettings(settings),
+      instructions: instructionNames([...board.kit.instructions.map(name => ({ name })), ...found]),
+      agents: Math.max(board.kit.agents, spawned),
+    },
+  }
+  pin($)
+}
+
 async function isOpen($: { ui: { panes: () => Promise<Array<{ id: string; isPlaced: boolean }>> } }) {
   const panes = await $.ui.panes()
   return panes.some(pane => pane.id === PANE && pane.isPlaced)
 }
 
 function paneArgs() {
-  return { id: PANE, title: 'Context', columns: 56, rows: 8 }
+  return { id: PANE, title: 'Context', columns: 56, rows: 10 }
 }
 
 export function register(
@@ -49,6 +71,7 @@ export function register(
 
   on('session.start', async ($, e, next) => {
     const result = await next(e)
+    board = emptyBoard()
     await $.command.register({
       name: 'context-board',
       description: 'Show the full context breakdown, or refresh the counts',
@@ -56,6 +79,7 @@ export function register(
       immediate: true,
     })
     if (e.isInteractive) {
+      await loadKit($)
       await takeReading($, 'summary')
       if (openPaneOnStart) await $.ui.open(paneArgs())
     }
@@ -112,6 +136,16 @@ export function register(
     }
     return { text: 'Usage: /context-board, /context-board refresh, /context-board pane, /context-board close' }
   })
+
+  on('tool.call', { tool: 'Skill' }, async ($, e, next) => {
+    const result = await next(e)
+    const skill = typeof e.skill === 'string' ? e.skill : ''
+    if (skill) {
+      board = { ...board, kit: { ...board.kit, lastSkill: skill } }
+      pin($)
+    }
+    return result
+  }).catch(($, e, next) => next(e))
 
   on('ui.render', { component: 'AbovePrompt' }, ($, e, next) => {
     if (e.props.hasSurvey) return next(e)

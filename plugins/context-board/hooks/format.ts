@@ -1,3 +1,10 @@
+export function clip(text: string, max: number): string {
+  const t = text.replace(/\s+/g, ' ').trim()
+  if (t.length <= max) return t
+  if (max <= 1) return '…'
+  return `${t.slice(0, max - 1)}…`
+}
+
 export function short(n: number): string {
   if (n >= 1_000_000) {
     const m = n / 1_000_000

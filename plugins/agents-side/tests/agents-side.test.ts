@@ -18,7 +18,6 @@ function world(on: (event: string, matcher?: unknown, hook?: (...args: never[]) 
   on('turn.start', ($, e) => ({ turnId: e.turnId }))
   on('turn.complete', () => ({ text: '' }))
   on('session.measure', ($, e) => ({ changed: e.changed }))
-  on('clock.every', () => ({ value: { cancel() {} } }))
 }
 
 const paneProps = {

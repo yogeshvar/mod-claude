@@ -1,0 +1,14 @@
+{
+  "name": "session-map",
+  "version": "0.1.0",
+  "description": "Live pane of files Claude read, edited, or wrote this session, grouped by monorepo app.",
+  "author": { "name": "mags" },
+  "userConfig": {
+    "openOnStart": {
+      "type": "boolean",
+      "title": "Open on start",
+      "description": "Open the session map pane when a session starts",
+      "default": false
+    }
+  }
+}

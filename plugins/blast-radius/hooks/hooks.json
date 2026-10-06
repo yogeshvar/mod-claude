@@ -1,0 +1,4 @@
+{
+  "description": "Blast radius: hold dangerous Bash, measure what it would change, Proceed or Cancel",
+  "modules": ["./register.ts"]
+}

@@ -1,5 +1,6 @@
-import { FREE_COLOR, SLICE_STYLES, short, styleOf, TICK_COLOR, fillTone } from './format.ts'
-import { headroomLimit, type Board, type Category } from './model.ts'
+import { FREE_COLOR, SLICE_STYLES, clip, short, styleOf, TICK_COLOR, fillTone } from './format.ts'
+import { kitLine } from './kit.ts'
+import { type Board, type Category } from './model.ts'
 
 export type Node = unknown
 export type El = (props: Record<string, unknown>) => Node
@@ -164,6 +165,11 @@ export function drawBoard(
         ),
       }),
     )
+  }
+
+  const kit = kitLine(board.kit)
+  if (kit) {
+    kids.push(Text({ dimColor: true, children: clip(kit, width) }))
   }
 
   if (args.showClose) {

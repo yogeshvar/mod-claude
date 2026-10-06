@@ -1,3 +1,5 @@
+import { emptyKit, instructionNames, mergeNames, type Kit } from './kit.ts'
+
 export const PANE = 'context-board'
 export const HISTORY = 24
 
@@ -54,6 +56,7 @@ export type Board = {
   maxTokens?: number
   totalTokens?: number
   apiUsage?: ApiUsage | null
+  kit: Kit
 }
 
 export function emptyBoard(): Board {
@@ -67,6 +70,20 @@ export function emptyBoard(): Board {
     memoryFiles: [],
     mcpTools: [],
     agents: [],
+    kit: emptyKit(),
+  }
+}
+
+export function withKitFromBoard(board: Board): Board {
+  const fromMemory = instructionNames(board.memoryFiles)
+  return {
+    ...board,
+    kit: {
+      ...board.kit,
+      skills: board.skills?.totalSkills ?? board.kit.skills,
+      agents: Math.max(board.kit.agents, board.agents.length),
+      instructions: mergeNames(board.kit.instructions, fromMemory),
+    },
   }
 }
 
@@ -156,7 +173,7 @@ export function applyUsage(
     totalTokens: br.totalTokens,
     apiUsage: br.apiUsage,
   }
-  return next
+  return withKitFromBoard(next)
 }
 
 export function afterCompact(board: Board): Board {
@@ -164,5 +181,6 @@ export function afterCompact(board: Board): Board {
     ...emptyBoard(),
     window: board.window,
     waiting: true,
+    kit: { ...board.kit, lastSkill: undefined },
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "mod-claude",
-  "description": "Claude Code mods: an agents sidebar and a compact context card",
+  "description": "Claude Code mods for CLI users: context HUD, agents pane, session map, and a blast-radius guard",
   "owner": {
     "name": "yogeshvar"
   },
@@ -13,7 +13,17 @@
     {
       "name": "context-board",
       "source": "./plugins/context-board",
-      "description": "Compact context card: stacked category bar, percent, and a wrapping legend"
+      "description": "Compact context card plus a kit strip of loaded skills, agents, CLAUDE.md, and plugins"
+    },
+    {
+      "name": "session-map",
+      "source": "./plugins/session-map",
+      "description": "Live pane of files Claude read, edited, or wrote this session, grouped by app"
+    },
+    {
+      "name": "blast-radius",
+      "source": "./plugins/blast-radius",
+      "description": "Holds risky Bash (migrations, force-push, DROP, hard reset) until you Proceed or Cancel"
     }
   ]
 }

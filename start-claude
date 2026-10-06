@@ -7,4 +7,6 @@ export CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1
 exec claude \
   --plugin-dir "$root/plugins/agents-side" \
   --plugin-dir "$root/plugins/context-board" \
+  --plugin-dir "$root/plugins/session-map" \
+  --plugin-dir "$root/plugins/blast-radius" \
   "$@"

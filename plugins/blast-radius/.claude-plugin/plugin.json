@@ -1,0 +1,6 @@
+{
+  "name": "blast-radius",
+  "version": "0.1.0",
+  "description": "Holds risky Bash (migrations, force-push, DROP, hard reset, rm -rf, deleting .env) and shows a dry-run pane with Proceed / Cancel.",
+  "author": { "name": "mags" }
+}
