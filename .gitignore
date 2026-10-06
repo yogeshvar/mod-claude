@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+**/.claude-plugin/types/
+**/.claude-plugin/tsconfig.json
+hooks/tsconfig.json
+tsconfig.json
+.claude/settings.local.json
+*.log

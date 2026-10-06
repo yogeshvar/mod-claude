@@ -1,0 +1,19 @@
+{
+  "name": "mod-claude",
+  "description": "Claude Code mods: an agents sidebar and a compact context card",
+  "owner": {
+    "name": "yogeshvar"
+  },
+  "plugins": [
+    {
+      "name": "agents-side",
+      "source": "./plugins/agents-side",
+      "description": "Live tree of the main loop and its subagents, docked beside the transcript"
+    },
+    {
+      "name": "context-board",
+      "source": "./plugins/context-board",
+      "description": "Compact context card: stacked category bar, percent, and a wrapping legend"
+    }
+  ]
+}

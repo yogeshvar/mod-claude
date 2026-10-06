@@ -1,0 +1,22 @@
+{
+  "name": "agents-side",
+  "version": "0.1.0",
+  "description": "Shows the session's agents in a side pane: the main loop and every subagent it spawns, with tools, status, and answers.",
+  "author": { "name": "mags" },
+  "userConfig": {
+    "openOnStart": {
+      "type": "boolean",
+      "title": "Open on start",
+      "description": "Open the agents pane when a session starts",
+      "default": true
+    },
+    "columns": {
+      "type": "number",
+      "title": "Pane width",
+      "description": "Width asked for the docked pane, in columns",
+      "default": 48,
+      "min": 32,
+      "max": 80
+    }
+  }
+}

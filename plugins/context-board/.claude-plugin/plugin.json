@@ -1,0 +1,14 @@
+{
+  "name": "context-board",
+  "version": "0.1.0",
+  "description": "Compact context card above the prompt: stacked category bar, percent, and a wrapping legend of everything in the window.",
+  "author": { "name": "mags" },
+  "userConfig": {
+    "openPaneOnStart": {
+      "type": "boolean",
+      "title": "Also open a pane",
+      "description": "Open the full context pane at session start, in addition to the bar above the prompt",
+      "default": false
+    }
+  }
+}

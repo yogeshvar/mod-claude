@@ -1,0 +1,4 @@
+{
+  "description": "Agents side pane: records spawns, tools and turn ends, and draws a live tree beside the transcript",
+  "modules": ["./register.ts"]
+}

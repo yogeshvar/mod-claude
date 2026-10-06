@@ -1,0 +1,10 @@
+#!/bin/sh
+# Load the local mods for one session. Quit any existing Claude Code in this
+# folder first; slash commands are registered at startup.
+set -e
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1
+exec claude \
+  --plugin-dir "$root/plugins/agents-side" \
+  --plugin-dir "$root/plugins/context-board" \
+  "$@"

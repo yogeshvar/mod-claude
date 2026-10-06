@@ -1,0 +1,4 @@
+{
+  "description": "Context board: pinned status line plus the full /context breakdown in the band above the prompt",
+  "modules": ["./register.ts"]
+}
