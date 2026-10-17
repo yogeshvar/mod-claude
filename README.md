@@ -1,6 +1,6 @@
 # Claude Code mods
 
-A small CLI cockpit for teams that already have agents, hooks, and instructions, and that still use Claude Code in the terminal (including Bedrock). Mods draw live UI and can hold a tool call. They do not replace those files.
+A small CLI cockpit for teams running Claude Code in the terminal (including Bedrock) who already have agents, hooks, and instruction files. These mods draw live UI and can hold a tool call — they don't replace what you already have.
 
 1. **context-board** — compact context card above the prompt, plus a one-line kit strip of what this session actually loaded
 2. **agents-side** — a pane of the main loop and every subagent it spawns
